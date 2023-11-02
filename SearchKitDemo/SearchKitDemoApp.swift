@@ -10,8 +10,11 @@ import SwiftUI
 @main
 struct SearchKitDemoApp: App {
     var body: some Scene {
-        DocumentGroup(newDocument: SearchKitDemoDocument()) { file in
-            ContentView(document: file.$document)
+//        DocumentGroup(newDocument: SearchKitDemoDocument()) { file in
+//            ContentView(document: file.$document)
+//        }
+        WindowGroup {
+            ContentView()
         }
     }
 }
