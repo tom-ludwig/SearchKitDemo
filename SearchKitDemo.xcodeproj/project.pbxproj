@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6139C2F72AF38BF300E7C5AA /* SearchIndex+Summariser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139C2F62AF38BF300E7C5AA /* SearchIndex+Summariser.swift */; };
-		6139C2F92AF38C0700E7C5AA /* SearchIndex+Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139C2F82AF38C0700E7C5AA /* SearchIndex+Memory.swift */; };
-		6139C2FB2AF38C2400E7C5AA /* SearchIndex+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139C2FA2AF38C2400E7C5AA /* SearchIndex+File.swift */; };
-		6139C2FD2AF38C4500E7C5AA /* SearchIndex+AsyncController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6139C2FC2AF38C4500E7C5AA /* SearchIndex+AsyncController.swift */; };
+		6129F8742AF4FD6F00A10F67 /* SearchIndexer+InternalMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6129F8732AF4FD6F00A10F67 /* SearchIndexer+InternalMethods.swift */; };
+		6129F8762AF502DE00A10F67 /* SearchIndexer+Terms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6129F8752AF502DE00A10F67 /* SearchIndexer+Terms.swift */; };
+		6129F8782AF50CE600A10F67 /* SearchIndexer+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6129F8772AF50CE600A10F67 /* SearchIndexer+Search.swift */; };
+		6129F87A2AF5211B00A10F67 /* SearchIndexer+ProgressivSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6129F8792AF5211B00A10F67 /* SearchIndexer+ProgressivSearch.swift */; };
+		6129F87C2AF5522E00A10F67 /* SearchIndexer+Indexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6129F87B2AF5522E00A10F67 /* SearchIndexer+Indexer.swift */; };
+		6129F8802AF555E800A10F67 /* IndexingAndSearchingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6129F87F2AF555E800A10F67 /* IndexingAndSearchingTests.swift */; };
+		6129F8832AF556B000A10F67 /* SearchIndexer+Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6129F8822AF556B000A10F67 /* SearchIndexer+Memory.swift */; };
 		614601832AF38E4500D8A910 /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614601822AF38E4500D8A910 /* FileUtils.swift */; };
 		617658842AF161AB000C5197 /* SearchKitDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658832AF161AB000C5197 /* SearchKitDemoApp.swift */; };
 		617658862AF161AB000C5197 /* SearchKitDemoDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658852AF161AB000C5197 /* SearchKitDemoDocument.swift */; };
@@ -21,7 +24,6 @@
 		617658A32AF161AD000C5197 /* SearchKitDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658A22AF161AD000C5197 /* SearchKitDemoUITests.swift */; };
 		617658A52AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658A42AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift */; };
 		617658B42AF16B04000C5197 /* SearchManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658B32AF16B04000C5197 /* SearchManger.swift */; };
-		61D059152AF2970100866063 /* Indexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D059142AF2970100866063 /* Indexer.swift */; };
 		61E2E7802AF3EDDC00E3AA4A /* SearchIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E2E77F2AF3EDDC00E3AA4A /* SearchIndexer.swift */; };
 		61E2E7822AF3F7F800E3AA4A /* SearchIndexer+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E2E7812AF3F7F800E3AA4A /* SearchIndexer+Add.swift */; };
 /* End PBXBuildFile section */
@@ -44,10 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6139C2F62AF38BF300E7C5AA /* SearchIndex+Summariser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndex+Summariser.swift"; sourceTree = "<group>"; };
-		6139C2F82AF38C0700E7C5AA /* SearchIndex+Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndex+Memory.swift"; sourceTree = "<group>"; };
-		6139C2FA2AF38C2400E7C5AA /* SearchIndex+File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndex+File.swift"; sourceTree = "<group>"; };
-		6139C2FC2AF38C4500E7C5AA /* SearchIndex+AsyncController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndex+AsyncController.swift"; sourceTree = "<group>"; };
+		6129F8732AF4FD6F00A10F67 /* SearchIndexer+InternalMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+InternalMethods.swift"; sourceTree = "<group>"; };
+		6129F8752AF502DE00A10F67 /* SearchIndexer+Terms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+Terms.swift"; sourceTree = "<group>"; };
+		6129F8772AF50CE600A10F67 /* SearchIndexer+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+Search.swift"; sourceTree = "<group>"; };
+		6129F8792AF5211B00A10F67 /* SearchIndexer+ProgressivSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+ProgressivSearch.swift"; sourceTree = "<group>"; };
+		6129F87B2AF5522E00A10F67 /* SearchIndexer+Indexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+Indexer.swift"; sourceTree = "<group>"; };
+		6129F87F2AF555E800A10F67 /* IndexingAndSearchingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexingAndSearchingTests.swift; sourceTree = "<group>"; };
+		6129F8822AF556B000A10F67 /* SearchIndexer+Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+Memory.swift"; sourceTree = "<group>"; };
 		614601822AF38E4500D8A910 /* FileUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
 		617658802AF161AB000C5197 /* SearchKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		617658832AF161AB000C5197 /* SearchKitDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKitDemoApp.swift; sourceTree = "<group>"; };
@@ -63,7 +68,6 @@
 		617658A22AF161AD000C5197 /* SearchKitDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKitDemoUITests.swift; sourceTree = "<group>"; };
 		617658A42AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKitDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		617658B32AF16B04000C5197 /* SearchManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManger.swift; sourceTree = "<group>"; };
-		61D059142AF2970100866063 /* Indexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Indexer.swift; sourceTree = "<group>"; };
 		61E2E77F2AF3EDDC00E3AA4A /* SearchIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIndexer.swift; sourceTree = "<group>"; };
 		61E2E7812AF3F7F800E3AA4A /* SearchIndexer+Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+Add.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				617658982AF161AD000C5197 /* SearchKitDemoTests.swift */,
+				6129F87F2AF555E800A10F67 /* IndexingAndSearchingTests.swift */,
 			);
 			path = SearchKitDemoTests;
 			sourceTree = "<group>";
@@ -158,11 +163,6 @@
 		61E2E77D2AF3EDBB00E3AA4A /* OldIndexer */ = {
 			isa = PBXGroup;
 			children = (
-				61D059142AF2970100866063 /* Indexer.swift */,
-				6139C2F62AF38BF300E7C5AA /* SearchIndex+Summariser.swift */,
-				6139C2F82AF38C0700E7C5AA /* SearchIndex+Memory.swift */,
-				6139C2FA2AF38C2400E7C5AA /* SearchIndex+File.swift */,
-				6139C2FC2AF38C4500E7C5AA /* SearchIndex+AsyncController.swift */,
 				614601822AF38E4500D8A910 /* FileUtils.swift */,
 			);
 			path = OldIndexer;
@@ -172,7 +172,13 @@
 			isa = PBXGroup;
 			children = (
 				61E2E77F2AF3EDDC00E3AA4A /* SearchIndexer.swift */,
+				6129F8822AF556B000A10F67 /* SearchIndexer+Memory.swift */,
+				6129F8772AF50CE600A10F67 /* SearchIndexer+Search.swift */,
+				6129F8792AF5211B00A10F67 /* SearchIndexer+ProgressivSearch.swift */,
 				61E2E7812AF3F7F800E3AA4A /* SearchIndexer+Add.swift */,
+				6129F8752AF502DE00A10F67 /* SearchIndexer+Terms.swift */,
+				6129F87B2AF5522E00A10F67 /* SearchIndexer+Indexer.swift */,
+				6129F8732AF4FD6F00A10F67 /* SearchIndexer+InternalMethods.swift */,
 			);
 			path = Indexer;
 			sourceTree = "<group>";
@@ -309,15 +315,16 @@
 			files = (
 				61E2E7802AF3EDDC00E3AA4A /* SearchIndexer.swift in Sources */,
 				617658862AF161AB000C5197 /* SearchKitDemoDocument.swift in Sources */,
-				61D059152AF2970100866063 /* Indexer.swift in Sources */,
+				6129F8832AF556B000A10F67 /* SearchIndexer+Memory.swift in Sources */,
 				61E2E7822AF3F7F800E3AA4A /* SearchIndexer+Add.swift in Sources */,
-				6139C2FB2AF38C2400E7C5AA /* SearchIndex+File.swift in Sources */,
-				6139C2FD2AF38C4500E7C5AA /* SearchIndex+AsyncController.swift in Sources */,
-				6139C2F92AF38C0700E7C5AA /* SearchIndex+Memory.swift in Sources */,
 				617658B42AF16B04000C5197 /* SearchManger.swift in Sources */,
+				6129F8742AF4FD6F00A10F67 /* SearchIndexer+InternalMethods.swift in Sources */,
+				6129F87C2AF5522E00A10F67 /* SearchIndexer+Indexer.swift in Sources */,
+				6129F87A2AF5211B00A10F67 /* SearchIndexer+ProgressivSearch.swift in Sources */,
 				617658842AF161AB000C5197 /* SearchKitDemoApp.swift in Sources */,
-				6139C2F72AF38BF300E7C5AA /* SearchIndex+Summariser.swift in Sources */,
 				617658882AF161AB000C5197 /* ContentView.swift in Sources */,
+				6129F8782AF50CE600A10F67 /* SearchIndexer+Search.swift in Sources */,
+				6129F8762AF502DE00A10F67 /* SearchIndexer+Terms.swift in Sources */,
 				614601832AF38E4500D8A910 /* FileUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,6 +333,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6129F8802AF555E800A10F67 /* IndexingAndSearchingTests.swift in Sources */,
 				617658992AF161AD000C5197 /* SearchKitDemoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,8 +14,22 @@ public func synchronised<T>(_ lock: AnyObject, _ body: () throws -> T) rethrows 
     return try body()
 }
 
+/// Ensures that critical sections of code only run on one thread at a time
+public class Synchronised {
+    private static let queue = DispatchQueue(label: "com.activcoding.SearchKitDemo")
+    
+    public class func withLock<T>(_ closure: () -> T) -> T {
+        var result: T!
+        queue.sync {
+            result = closure()
+        }
+        return result
+    }
+}
+
 /// Indexer using SKIndex
 @objc public class SearchIndexer: NSObject {
+    let queue = DispatchQueue(label: "com.activcoding.SearchKitDemo")
     @objc(SearchIndexerType)
     public enum IndexType: UInt32 {
         /// Unknown index type (kSKIndexUnknown)
@@ -47,7 +61,7 @@ public func synchronised<T>(_ lock: AnyObject, _ body: () throws -> T) rethrows 
         ///   - stopWords: A set of stopwords — words not to index
         ///   - minTermLength: The minimum term length to index (defaults to 1)
         public init(
-            indexType: SearchIndex.IndexType = .inverted,
+            indexType: SearchIndexer.IndexType = .inverted,
             proximityIndexing: Bool = false,
             stopWords: Set<String> = [],
             minTermLengh: UInt = 1
@@ -73,7 +87,7 @@ public func synchronised<T>(_ lock: AnyObject, _ body: () throws -> T) rethrows 
     var index: SKIndex?
     
     /// Call  once at application launch to tell Search Kit to use the Spotlight metadata importers.
-    private lazy var dataExtractorLoaded: Bool = {
+    lazy var dataExtractorLoaded: Bool = {
         SKLoadDefaultExtractorPlugIns()
         return true
     }()
