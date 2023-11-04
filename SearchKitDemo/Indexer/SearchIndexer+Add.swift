@@ -83,7 +83,7 @@ extension SearchIndexer {
         let fileManger = FileManager.default
         
         var isDir: ObjCBool = false
-        guard fileManger.fileExists(atPath: folderURL.path(), isDirectory: &isDir),
+        guard fileManger.fileExists(atPath: folderURL.path, isDirectory: &isDir),
               isDir.boolValue == true else {
             return []
         }
@@ -91,7 +91,7 @@ extension SearchIndexer {
         var addedUrls: [URL] = []
         let enumerator = fileManger.enumerator(at: folderURL, includingPropertiesForKeys: nil)
         while let fileURL = enumerator?.nextObject() as? URL {
-            if fileManger.fileExists(atPath: fileURL.path(), isDirectory: &isDir),
+            if fileManger.fileExists(atPath: fileURL.path, isDirectory: &isDir),
                isDir.boolValue == false,
                self.add(fileURL: fileURL, canReplace: canReplace) {
                 addedUrls.append(fileURL)
