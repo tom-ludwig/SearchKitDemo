@@ -73,7 +73,7 @@ public class Synchronised {
         }
         
         /// Returns a CFDictionary object to use for the call to SKIndexCreate
-        internal func properties() -> CFDictionary {
+         func properties() -> CFDictionary {
             let properties: [CFString: Any] = [
                 kSKProximityIndexing: self.proximityIndexing,
                 kSKStopWords: self.stopWords,
@@ -111,7 +111,7 @@ public class Synchronised {
         }
     }
     
-    internal init(index: SKIndex) {
+    init(index: SKIndex) {
         self.index = index
         super.init()
     }

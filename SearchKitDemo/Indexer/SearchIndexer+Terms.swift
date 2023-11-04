@@ -19,7 +19,7 @@ extension SearchIndexer {
         @objc
         public let count: Int
         
-        internal init(term: String, count: Int) {
+         init(term: String, count: Int) {
             self.term = term
             self.count = count
             super.init()

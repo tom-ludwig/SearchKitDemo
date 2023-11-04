@@ -15,7 +15,7 @@ extension SearchIndexer {
     ///
     /// - Parameter url: the url to detect the mime type for
     /// - Returns: the mime type of the url if able to detect, nil otherwise
-    internal func detectMimeType(_ url: URL) -> String? {
+     func detectMimeType(_ url: URL) -> String? {
         if let type = UTType(filenameExtension: url.pathExtension) {
             if let mimetype = type.preferredMIMEType {
                 return mimetype
@@ -25,7 +25,7 @@ extension SearchIndexer {
     }
     
     /// Remove the given document from the index
-    internal func remove(document: SKDocument) -> Bool {
+     func remove(document: SKDocument) -> Bool {
         if let index = self.index {
             return queue.sync {
                 SKIndexRemoveDocument(index, document)
@@ -77,7 +77,7 @@ extension SearchIndexer {
     ///
     /// - Parameter termState: the termstate of documents to be returned (eg. all, empty only, non-empty only)
     /// - Returns: An array containing all the documents matching the termstate
-    internal func fullDocuments(termState: TermState = .All) -> [DocumentID] {
+     func fullDocuments(termState: TermState = .All) -> [DocumentID] {
         guard let index = self.index else {
             return []
         }

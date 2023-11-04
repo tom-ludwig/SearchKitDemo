@@ -19,7 +19,7 @@ extension SearchIndexer {
         @objc
         public let score: Float
         
-        internal init(url: URL, score: Float) {
+         init(url: URL, score: Float) {
             self.url = url
             self.score = score
             super.init()
@@ -69,7 +69,7 @@ extension SearchIndexer {
         private let index: SearchIndexer
         private let query: String
         
-        internal init(options: SKSearchOptions, index: SearchIndexer, query: String) {
+         init(options: SKSearchOptions, index: SearchIndexer, query: String) {
             self.options = options
             self.search = SKSearchCreate(index.index, query as CFString, options).takeRetainedValue()
             self.index = index
