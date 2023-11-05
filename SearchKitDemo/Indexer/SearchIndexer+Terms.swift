@@ -9,14 +9,11 @@ import Foundation
 
 extension SearchIndexer {
     /// A class to contain a term and the count of times it appears
-    @objc(SearchIndexerTermCount)
     public class TermCount: NSObject {
         /// A term within the document
-        @objc
         public let term: String
         
         /// The number of occurrences of `term`
-        @objc
         public let count: Int
         
          init(term: String, count: Int) {
@@ -31,7 +28,6 @@ extension SearchIndexer {
     }
     
     /// A enum to specify the state of the document
-    @objc(SearchIndexerTermState)
     public enum TermState: Int {
         /// All document states
         case All = 0
@@ -45,13 +41,11 @@ extension SearchIndexer {
     ///
     /// - Parameter termState: Only return documents matching the specified document state
     /// - Returns: An array containing all the document URLs
-    @objc
     public func documents(termState: TermState = .All) -> [URL] {
         return self.fullDocuments(termState: termState).map { $0.0 }
     }
     
     /// Returns the number of terms for the specified document url
-    @objc
     public func termCount(for url: URL) -> Int {
         if let index = self.index,
            let document = SKDocumentCreateWithURL(url as CFURL) {
@@ -62,7 +56,6 @@ extension SearchIndexer {
     }
     
     /// Is the specified document empty (ie. it has no terms)
-    @objc
     public func isEmpty(for url: URL) -> Bool {
         return self.termCount(for: url) > 0
     }
@@ -72,7 +65,6 @@ extension SearchIndexer {
     /// - Parameter url: The document URL in the index to locate
     /// - Returns: An array of the terms and corresponding counts located in the document.
     ///            Returns an empty array if the document cannot be located.
-    @objc
     public func terms(for url: URL) -> [TermCount] {
         guard let index = self.index else {
             return []

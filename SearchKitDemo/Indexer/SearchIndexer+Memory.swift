@@ -9,14 +9,12 @@ import Foundation
 
 extension SearchIndexer {
     /// Memory based indxing using NSMutable
-    @objc(SearchIndexerMemory)
     public class Memory: SearchIndexer {
         // The data index store
         private var store = NSMutableData()
         
         /// Creat a new in-memory index
         /// - Parameter properties: the properties to use in the index
-        @objc
         public init?(properties: CreateProperties = CreateProperties()) {
             let data = NSMutableData()
             if let skIndex = SKIndexCreateWithMutableData(
@@ -34,7 +32,6 @@ extension SearchIndexer {
         
         /// Create an in-memory index from the data provided
         /// - Parameter data: The data to load the index data from
-        @objc
         public convenience init?(data: Data) {
             if let rawData = (data as NSData).mutableCopy() as? NSMutableData,
                let skIndex = SKIndexOpenWithMutableData(rawData, nil) {
@@ -48,7 +45,6 @@ extension SearchIndexer {
         ///
         /// - Parameter properties: the properties for index creation
         /// - Returns: A new index object if successful, nil otherwise
-        @objc
         public static func Create(properties: CreateProperties = CreateProperties()) -> SearchIndexer.Memory? {
             let data = NSMutableData()
             if let skIndex = SKIndexCreateWithMutableData(data,
@@ -67,7 +63,6 @@ extension SearchIndexer {
         ///
         /// - Parameter data: The data to load as an index
         /// - Returns: A new index object if successful, nil otherwise
-        @objc
         public static func Load(form data: Data) -> SearchIndexer.Memory? {
             if let rawData = (data as NSData).mutableCopy() as? NSMutableData,
                let skIndex = SKIndexOpenWithMutableData(rawData, nil) {

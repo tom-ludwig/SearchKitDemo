@@ -28,9 +28,9 @@ public class Synchronised {
 }
 
 /// Indexer using SKIndex
-@objc public class SearchIndexer: NSObject {
+public class SearchIndexer: NSObject {
     let queue = DispatchQueue(label: "com.activcoding.SearchKitDemo")
-    @objc(SearchIndexerType)
+    
     public enum IndexType: UInt32 {
         /// Unknown index type (kSKIndexUnknown)
         case unknown = 0
@@ -42,7 +42,6 @@ public class Synchronised {
         case invertedVector = 3
     }
     
-    @objc(SearchIndexerCreateProperties)
     public class CreateProperties: NSObject {
         /// The type of the index to be created
         private(set) var indexType: SKIndexType = kSKIndexInverted

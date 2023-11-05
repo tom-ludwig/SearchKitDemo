@@ -9,14 +9,11 @@ import Foundation
 
 extension SearchIndexer {
     /// Object representaitng the search results
-    @objc(SearchIndexerSearchResult)
     public class SearchResult: NSObject {
         /// The identifying url for the document
-        @objc
         public let url: URL
         
         /// The search score for the codument result, Heigher means more relevant
-        @objc
         public let score: Float
         
          init(url: URL, score: Float) {
@@ -31,7 +28,6 @@ extension SearchIndexer {
     }
     
     /// Start a progressive search
-    @objc
     public func progressiveSearch(
         query: String,
         options: SKSearchOptions = SKSearchOptions(kSKSearchOptionDefault)
@@ -39,16 +35,13 @@ extension SearchIndexer {
         return ProgressivSearch(options: options, index: self, query: query)
     }
     
-    @objc(SearchIndexerProgressiveSearch)
     public class ProgressivSearch: NSObject {
-        @objc(SearchIndexerProgressiveSearchResults)
         public class Results: NSObject {
             /// Create a search result
             ///
             /// - Parameters:
             ///   - moreResultsAvailable: A boolean indicating whether more search results are available
             ///   - results: The partial results for the search request
-            @objc
             public init(moreResultsAvailable: Bool, results: [SearchResult]) {
                 self.moreResultsAvailable = moreResultsAvailable
                 self.results = results
@@ -56,11 +49,9 @@ extension SearchIndexer {
             }
             
             /// A boolean indicating whether more search results are available
-            @objc
             public let moreResultsAvailable: Bool
             
             /// The partial results for the search request
-            @objc
             public let results: [SearchResult]
         }
         
@@ -77,14 +68,12 @@ extension SearchIndexer {
         }
         
         /// Cancel an active search
-        @objc
         public func cancel() {
             SKSearchCancel(self.search)
         }
         
         
         /// Get the next chunk of result
-        @objc
         public func next(_ limit: Int = 10, timeout: TimeInterval = 1.0) -> (ProgressivSearch.Results) {
             guard self.index.index != nil else {
                 return Results(moreResultsAvailable: false, results: [])

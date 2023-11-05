@@ -15,7 +15,6 @@ extension SearchIndexer {
     ///   - limit: The maximum number of results to return
     ///   - timeout: How long to wait for a search to complete before stopping
     /// - Returns: An array containing match URLs and their corresponding 'score' (how relevant the match)
-    @objc
     public func search(
         _ query: String,
         limit: Int = 10,

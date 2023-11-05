@@ -17,7 +17,7 @@ extension SearchIndexer {
     ///   - text: The text to add
     ///   - canReplace: if true, can attempt to replace an existing document with the new one.
     /// - Returns: true if the text was successfully added to the index, false otherwise
-    @objc public func add(_ url: URL, text: String, canReplace: Bool = true) -> Bool {
+    public func add(_ url: URL, text: String, canReplace: Bool = true) -> Bool {
         guard let index = self.index,
               let document = SKDocumentCreateWithURL(url as CFURL) else {
             return false
@@ -41,7 +41,6 @@ extension SearchIndexer {
     ///   - text: The text to add
     ///   - canReplace: if true, can attempt to replace an existing document with the new one.
     /// - Returns: true if the text was successfully added to the index, false otherwise
-    @objc
     public func add(textURL: String, text: String, canReplace: Bool = true) -> Bool {
         guard let url = URL(string: textURL) else {
             return false
@@ -57,7 +56,6 @@ extension SearchIndexer {
     ///   - canReplace: if true, can attempt to replace an existing document with the new one.
     /// - Returns: true if the command was successful.
     ///                 **NOTE** If the document _wasnt_ updated it also returns true!
-    @objc
     public func add(fileURL: URL, mimeType: String? = nil, canReplace: Bool = true) -> Bool {
         guard self.dataExtractorLoaded,
               let index = self.index,
@@ -78,7 +76,6 @@ extension SearchIndexer {
     ///   - folderURL: The folder to be indexed.
     ///   - canReplace: If the document already exists within the index, can it be replaced?
     /// - Returns: The URLs of documents added to the index.  If folderURL isn't a folder, returns empty
-    @objc
     public func addFolderContent(folderURL: URL, canReplace: Bool = true) -> [URL] {
         let fileManger = FileManager.default
         
@@ -106,7 +103,6 @@ extension SearchIndexer {
     /// - Parameter url: The identifying URL for the document
     /// - Returns: true if the document was successfully removed, false otherwise.
     ///            **NOTE** if the document didn't exist, this returns true as well
-    @objc
     public func remove(url: URL) -> Bool {
         let document = SKDocumentCreateWithURL(url as CFURL).takeUnretainedValue()
         return self.remove(document: document)
@@ -115,7 +111,6 @@ extension SearchIndexer {
     /// Remove an array of documents from the index
     ///
     /// - Parameter urls: An array of URLs identifying the documents to remove
-    @objc
     public func remove(urls: [URL]) {
         urls.forEach { url in
             _ = self.remove(url: url)
@@ -123,7 +118,6 @@ extension SearchIndexer {
     }
     
     /// Returns the indexing state for the specified URL.
-    @objc
     public func documentState(_ url: URL) -> SKDocumentIndexState {
         if let index = self.index,
            let document = SKDocumentCreateWithURL(url as CFURL) {
@@ -133,7 +127,6 @@ extension SearchIndexer {
     }
     
     /// Returns true if the document that corresponds to the specified URL is in the index.
-    @objc
     public func documentIndexed(_ url: URL) -> Bool {
         return self.documentState(url) == kSKDocumentStateIndexed
     }

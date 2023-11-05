@@ -9,7 +9,6 @@ import Foundation
 
 extension SearchIndexer {
     /// Flush any pending commands to the search index. Flush should always be called before performing a search
-    @objc
     public func flush() {
         if let index = self.index {
             SKIndexFlush(index)
@@ -17,7 +16,6 @@ extension SearchIndexer {
     }
     
     /// Reduce the size of index where possible, do NOT call on the main thread
-    @objc
     public func compact() {
         if let index = self.index {
             SKIndexCompact(index)
@@ -25,7 +23,6 @@ extension SearchIndexer {
     }
     
     /// Remove any documents that have no search terms
-    @objc
     public func cleanUp(progress: ((Int, Int) -> Void)?) -> Int {
         let allDocs = self.fullDocuments(termState: .Empty)
         let totalCount = allDocs.count
