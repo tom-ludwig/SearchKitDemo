@@ -11,7 +11,7 @@ extension SearchIndexer {
     /// Memory based indxing using NSMutable
     @objc(SearchIndexerMemory)
     public class Memory: SearchIndexer {
-        // THe data index store
+        // The data index store
         private var store = NSMutableData()
         
         /// Creat a new in-memory index
@@ -74,6 +74,12 @@ extension SearchIndexer {
                 return SearchIndexer.Memory(data: rawData, index: skIndex.takeUnretainedValue())
             }
             return nil
+        }
+        
+        /// Returns a copy of the index as data
+        public func getAsData() -> Data? {
+            flush()
+            return self.store.copy() as? Data
         }
         
         private init(data: NSMutableData, index: SKIndex) {

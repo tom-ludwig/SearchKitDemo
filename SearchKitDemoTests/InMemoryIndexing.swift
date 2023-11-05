@@ -23,25 +23,6 @@ final class IndexingAndSearchingTests: XCTestCase {
         return thisDirectory
     }
     
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
     func testIndexFile() {
         guard let indexer = SearchIndexer.Memory.Create() else {
             XCTFail()
@@ -66,7 +47,6 @@ final class IndexingAndSearchingTests: XCTestCase {
         }
         
         let folderPath = bundleResourceFolderURL()
-        print(folderPath)
         let result = indexer.addFolderContent(folderURL: folderPath, canReplace: false)
         XCTAssertEqual(result.count, 3)
     }
@@ -88,7 +68,6 @@ final class IndexingAndSearchingTests: XCTestCase {
         indexer.flush()
         
         var searchResults = indexer.search("apache")
-        print(searchResults)
         XCTAssertEqual(1, searchResults.count)
         XCTAssertEqual(filePath, searchResults[0].url)
         
@@ -105,21 +84,109 @@ final class IndexingAndSearchingTests: XCTestCase {
         }
         
         let folderPath = bundleResourceFolderURL()
-        print(folderPath)
         let result = indexer.addFolderContent(folderURL: folderPath, canReplace: false)
         XCTAssertEqual(result.count, 3)
         
         indexer.flush()
         
         var searchResults = indexer.search("apache")
-        print(searchResults)
         XCTAssertEqual(1, searchResults.count)
         
         searchResults = indexer.search("school")
-        print(searchResults)
         XCTAssertEqual(searchResults.count, 1)
     }
     
+    func testRemoveDocument() {
+        guard let indexer = SearchIndexer.Memory.Create() else {
+            XCTFail()
+            return
+        }
+        
+        let doc1 = FileHelper.url("doc://viewModel.swift")
+        XCTAssertTrue(indexer.add(doc1, text: "struct ViewModel: Identifiable, Hashable, Codable {"))
+        let doc2 = FileHelper.url("doc://apiCall.swift")
+        XCTAssertTrue(indexer.add(doc2, text: "public func createUser(name: String, email: String, password: String) async throws -> User {"))
+        
+        indexer.flush()
+        
+        var documents = indexer.documents()
+        XCTAssertEqual(documents.count, 2)
+        
+        XCTAssertEqual(indexer.search("ViewModel").count, 1)
+        XCTAssertEqual(indexer.search("func").count, 1)
+        
+        XCTAssertTrue(indexer.remove(url: doc1))
+        indexer.flush()
+        
+        documents = indexer.documents()
+        
+        XCTAssertEqual(documents.count, 1)
+        XCTAssertEqual(indexer.search("ViewModel").count, 0)
+        XCTAssertEqual(indexer.search("func").count, 1)
+    }
+    
+    func testProximitySearch() {
+        let properties = SearchIndexer.CreateProperties(proximityIndexing: true)
+        guard let indexer = SearchIndexer.Memory.Create(properties: properties) else {
+            XCTFail()
+            return
+        }
+        
+        let doc1 = FileHelper.url("doc://viewModel.swift")
+        XCTAssertTrue(indexer.add(doc1, text: "struct ViewModel: Identifiable, Hashable, Codable {"))
+        
+        indexer.flush()
+        
+        XCTAssertEqual(indexer.search("viEwmodeL").count, 1)
+    }
+    
+    func testWildcardSearching() {
+        let properties = SearchIndexer.CreateProperties(proximityIndexing: true)
+        guard let indexer = SearchIndexer.Memory.Create(properties: properties) else {
+            XCTFail()
+            return
+        }
+        
+        let doc1 = FileHelper.url("doc://viewModel.swift")
+        XCTAssertTrue(indexer.add(doc1, text: "struct ViewModel: Identifiable, Hashable, Codable {"))
+        
+        indexer.flush()
+        
+        // Note that two asterisk symbols are required to perform a wildcard search. Infront of the search term for prefix matching and at the end of the search term for suffix matching.
+        XCTAssertEqual(indexer.search("*modeL*").count, 1)
+    }
+    
+    func testSaveAndLoad() {
+        guard let indexer = SearchIndexer.Memory.Create() else {
+            XCTFail()
+            return
+        }
+        
+        let textFilePath = bundleResourceURL(forResource: "the_school_short_story", withExtension: "txt")
+        
+        XCTAssertTrue(indexer.add(fileURL: textFilePath, canReplace: false))
+        
+        indexer.flush()
+        
+        let searchResults = indexer.search("excavating")
+        XCTAssertEqual(1, searchResults.count)
+        XCTAssertEqual(searchResults[0].url, textFilePath)
+        
+        // Save the current index.
+        let savedIndex = indexer.getAsData()
+        XCTAssertNotNil(savedIndex)
+        // Close the index, i.e. the index gets deallocated form memory.
+        indexer.close()
+        
+        // Load the saved index
+        guard let loadedIndex = SearchIndexer.Memory(data: savedIndex!) else {
+            XCTFail()
+            return
+        }
+        
+        let savedIndexResult = loadedIndex.search("excavating")
+        XCTAssertEqual(savedIndexResult.count, 1)
+    }
     
     func testFileIndexingPerformance() {
         self.measure {
