@@ -9,7 +9,7 @@ import Foundation
 
 extension SearchIndexer {
     /// Object representaitng the search results
-    public class SearchResult: NSObject {
+    public class SearchResult {
         /// The identifying url for the document
         public let url: URL
         
@@ -19,11 +19,6 @@ extension SearchIndexer {
          init(url: URL, score: Float) {
             self.url = url
             self.score = score
-            super.init()
-        }
-        
-        public override var debugDescription: String {
-            return "Score: \(self.score), URL: \(self.url)"
         }
     }
     
@@ -35,8 +30,8 @@ extension SearchIndexer {
         return ProgressivSearch(options: options, index: self, query: query)
     }
     
-    public class ProgressivSearch: NSObject {
-        public class Results: NSObject {
+    public class ProgressivSearch {
+        public class Results {
             /// Create a search result
             ///
             /// - Parameters:
@@ -45,7 +40,6 @@ extension SearchIndexer {
             public init(moreResultsAvailable: Bool, results: [SearchResult]) {
                 self.moreResultsAvailable = moreResultsAvailable
                 self.results = results
-                super.init()
             }
             
             /// A boolean indicating whether more search results are available

@@ -27,6 +27,8 @@
 		617658A32AF161AD000C5197 /* SearchKitDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658A22AF161AD000C5197 /* SearchKitDemoUITests.swift */; };
 		617658A52AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658A42AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift */; };
 		617658B42AF16B04000C5197 /* SearchManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658B32AF16B04000C5197 /* SearchManger.swift */; };
+		617D04BF2AF9769300CD2CDA /* AsyncIndexSearchingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617D04BE2AF9769300CD2CDA /* AsyncIndexSearchingTests.swift */; };
+		619DD8012AF962A000A9364E /* SearchIndexer+AsyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619DD8002AF962A000A9364E /* SearchIndexer+AsyncManager.swift */; };
 		61E2E7802AF3EDDC00E3AA4A /* SearchIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E2E77F2AF3EDDC00E3AA4A /* SearchIndexer.swift */; };
 		61E2E7822AF3F7F800E3AA4A /* SearchIndexer+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E2E7812AF3F7F800E3AA4A /* SearchIndexer+Add.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +76,8 @@
 		617658A22AF161AD000C5197 /* SearchKitDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKitDemoUITests.swift; sourceTree = "<group>"; };
 		617658A42AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKitDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		617658B32AF16B04000C5197 /* SearchManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManger.swift; sourceTree = "<group>"; };
+		617D04BE2AF9769300CD2CDA /* AsyncIndexSearchingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncIndexSearchingTests.swift; sourceTree = "<group>"; };
+		619DD8002AF962A000A9364E /* SearchIndexer+AsyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+AsyncManager.swift"; sourceTree = "<group>"; };
 		61E2E77F2AF3EDDC00E3AA4A /* SearchIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIndexer.swift; sourceTree = "<group>"; };
 		61E2E7812AF3F7F800E3AA4A /* SearchIndexer+Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+Add.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -154,6 +158,7 @@
 				617658982AF161AD000C5197 /* SearchKitDemoTests.swift */,
 				6129F87F2AF555E800A10F67 /* InMemoryIndexing.swift */,
 				6129F8862AF6BD5900A10F67 /* FileIndexingTests.swift */,
+				617D04BE2AF9769300CD2CDA /* AsyncIndexSearchingTests.swift */,
 				6129F8882AF6BDD700A10F67 /* FileHelper.swift */,
 			);
 			path = SearchKitDemoTests;
@@ -180,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				61E2E77F2AF3EDDC00E3AA4A /* SearchIndexer.swift */,
+				619DD8002AF962A000A9364E /* SearchIndexer+AsyncManager.swift */,
 				6129F8842AF6BAAF00A10F67 /* SearchIndexer+File.swift */,
 				6129F8822AF556B000A10F67 /* SearchIndexer+Memory.swift */,
 				6129F8772AF50CE600A10F67 /* SearchIndexer+Search.swift */,
@@ -332,6 +338,7 @@
 				6129F87C2AF5522E00A10F67 /* SearchIndexer+Indexer.swift in Sources */,
 				6129F87A2AF5211B00A10F67 /* SearchIndexer+ProgressivSearch.swift in Sources */,
 				617658842AF161AB000C5197 /* SearchKitDemoApp.swift in Sources */,
+				619DD8012AF962A000A9364E /* SearchIndexer+AsyncManager.swift in Sources */,
 				617658882AF161AB000C5197 /* ContentView.swift in Sources */,
 				6129F8782AF50CE600A10F67 /* SearchIndexer+Search.swift in Sources */,
 				6129F8762AF502DE00A10F67 /* SearchIndexer+Terms.swift in Sources */,
@@ -347,6 +354,7 @@
 				6129F8802AF555E800A10F67 /* InMemoryIndexing.swift in Sources */,
 				617658992AF161AD000C5197 /* SearchKitDemoTests.swift in Sources */,
 				6129F8892AF6BDD700A10F67 /* FileHelper.swift in Sources */,
+				617D04BF2AF9769300CD2CDA /* AsyncIndexSearchingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

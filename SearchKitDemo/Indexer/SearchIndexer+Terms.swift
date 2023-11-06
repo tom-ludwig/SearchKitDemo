@@ -9,7 +9,7 @@ import Foundation
 
 extension SearchIndexer {
     /// A class to contain a term and the count of times it appears
-    public class TermCount: NSObject {
+    public class TermCount {
         /// A term within the document
         public let term: String
         
@@ -19,11 +19,6 @@ extension SearchIndexer {
          init(term: String, count: Int) {
             self.term = term
             self.count = count
-            super.init()
-        }
-        
-        public override var debugDescription: String {
-            return "Term: '\(self.term)', Count: \(self.count)'"
         }
     }
     
