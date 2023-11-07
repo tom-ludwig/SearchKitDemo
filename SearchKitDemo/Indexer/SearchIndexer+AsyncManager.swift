@@ -9,13 +9,12 @@ import Foundation
 
 extension SearchIndexer {
     /// Manager for SearchIndexer objct that supports async calls to the index
-    public class AsyncManager {
-        let index: SearchIndexer
+     class AsyncManager {
+        public let index: SearchIndexer
         
         
         /// Queue for handling async modifications to the index
         //        fileprivate let modifyQueue = DispatchQueue(label: "com.SearchkitDemo.modifyQueue", attributes: .concurrent)
-        
         init(index: SearchIndexer) {
             self.index = index
         }
@@ -36,8 +35,9 @@ extension SearchIndexer {
             }
         }
         
+        // MARK: - Search
         /// A task nor handling searches
-        class SearchTask: AsyncManager {
+        class SearchTask {
             private var search: SearchIndexer.ProgressivSearch
             
             let query: String
@@ -47,7 +47,6 @@ extension SearchIndexer {
             init(_ index: SearchIndexer, query: String) {
                 self.query = query
                 self.search = index.progressiveSearch(query: query)
-                super.init(index: index)
             }
             
             deinit {
@@ -70,7 +69,8 @@ extension SearchIndexer {
             }
         }
         
-        class AddTask: AsyncManager {
+        // MARK: - Add
+        
             private let addQueue = DispatchQueue(label: "com.SearchkitDemo.addQueue", attributes: .concurrent)
             
             func addText(
@@ -100,23 +100,49 @@ extension SearchIndexer {
             func addFiles(
                 urls: [URL],
                 flushWhenComplete: Bool = false
-            ) {
-                let dispatchGroup = DispatchGroup()
+            ) async -> [Bool] {
+                var addedURLs = [Bool]()
                 
-                for url in urls {
-                    dispatchGroup.enter()
-                    addQueue.async { [weak self] in
-                        guard let self = self else { return }
-                        let _ = self.index.add(fileURL: url, canReplace: false)
-                        dispatchGroup.leave()
+                await withTaskGroup(of: Bool.self) { taskGroup in
+                    for url in urls {
+                        taskGroup.addTask {
+                            return self.index.add(fileURL: url, canReplace: false)
+                        }
+                    }
+                    
+                    for await results in taskGroup {
+                        addedURLs.append(results)
                     }
                 }
                 
-                dispatchGroup.notify(queue: .main) {
-                    if flushWhenComplete {
-                        self.index.flush()
-                    }
-                }
+                return addedURLs
+                
+                
+//                let dispatchGroup = DispatchGroup()
+//                
+//                for url in urls {
+//                    dispatchGroup.enter()
+//                    
+//                    addQueue.async { [weak self] in
+//                      
+//                        guard let self = self else {
+//                            print("self isn't self")
+//                            return
+//                        }
+//                        print("first URL")
+//                        let results = self.index.add(fileURL: url, canReplace: false)
+//                        addedURLs.append(results)
+//                        dispatchGroup.leave()
+//                    }
+//                }
+//                
+//                dispatchGroup.notify(queue: .main) {
+//                    print("test")
+//                    if flushWhenComplete {
+//                        self.index.flush()
+//                    }
+//                    completion(addedURLs)
+//                }
             }
             
             func addFolder(
@@ -152,7 +178,6 @@ extension SearchIndexer {
                     }
                 }
             }
-        }
     }
 }
 
