@@ -43,8 +43,37 @@ final class AsyncIndexSearchingTests: XCTestCase {
             print(asyncManager.index.documents())
             expectation.fulfill()
         }
-       
+        
         wait(for: [expectation], timeout: 5)
+    }
+    
+    func testSearchDocuments() {
+        guard let indexer = SearchIndexer.Memory.Create() else {
+            XCTFail()
+            return
+        }
+        
+        let filePath = bundleResourceURL(forResource: "APACHE_LICENSE", withExtension: "pdf")
+        let txtPath = bundleResourceURL(forResource: "the_school_short_story", withExtension: "txt")
+        
+        
+        let asyncManager = SearchIndexer.AsyncManager(index: indexer)
+        let expectation = XCTestExpectation(description: "Async operations completed")
+        Task {
+            let result = await asyncManager.addFiles(urls: [filePath, txtPath])
+            XCTAssertEqual(result.count, 2)
+            asyncManager.index.flush()
+            
+            asyncManager.next(query: "school", 10) { searchResults in
+                let urls = searchResults.results.map {
+                    $0.url
+                }
+                XCTAssertEqual(urls.first, txtPath)
+                expectation.fulfill()
+            }
+        }
+        
+        wait(for: [expectation], timeout: 2)
     }
     
     func testAsyncPerformance() {
