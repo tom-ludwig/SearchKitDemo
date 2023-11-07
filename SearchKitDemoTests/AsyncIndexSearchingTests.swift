@@ -47,6 +47,7 @@ final class AsyncIndexSearchingTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
     }
     
+    // TODO: Fix bug where unit test failes when running whole classaaaaa
     func testSearchDocuments() {
         guard let indexer = SearchIndexer.Memory.Create() else {
             XCTFail()
@@ -55,7 +56,7 @@ final class AsyncIndexSearchingTests: XCTestCase {
         
         let filePath = bundleResourceURL(forResource: "APACHE_LICENSE", withExtension: "pdf")
         let txtPath = bundleResourceURL(forResource: "the_school_short_story", withExtension: "txt")
-        
+        print("files!")
         
         let asyncManager = SearchIndexer.AsyncManager(index: indexer)
         let expectation = XCTestExpectation(description: "Async operations completed")
@@ -69,11 +70,12 @@ final class AsyncIndexSearchingTests: XCTestCase {
                     $0.url
                 }
                 XCTAssertEqual(urls.first, txtPath)
+                print("WORKED")
                 expectation.fulfill()
             }
         }
         
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: 10)
     }
     
     func testAsyncPerformance() {

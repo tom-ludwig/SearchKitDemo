@@ -10,93 +10,91 @@ import AppKit
 
 struct ContentView: View {
     @State var tempDoc: FileUtils.TempFile?
+    @State var files = [FileViewModel]()
+    @State var indexer = SearchIndexer.Memory.Create()
+    @State private var elapsedTime: TimeInterval?
+    
     var body: some View {
-        VStack {
-            HStack {
-                Button("Search") {
+        NavigationView {
+            SidebarView(files: $files)
+            
+            VStack {
+                HStack {
+                    VStack {
+                        Button("Index") {
+                             let startTime = Date()
+                            guard let indexer = indexer else {
+                                return
+                            }
+                            
+                            files.forEach { file in
+                                let result = indexer.add(fileURL: file.url, canReplace: false)
+                                print(result)
+                            }
+                            
+                            indexer.flush()
+                            
+                            print(indexer.search("cruising", limit: 10))
+                            
+                            let endTime = Date()
+                            elapsedTime = endTime.timeIntervalSince(startTime)
+                        }
+                        
+                        
+                        if let elapsedTime = elapsedTime {
+                            Text("\(elapsedTime)")
+                        }
+                    }
                     
-//                    tempDoc = FileUtils.TempFile()
-//                    guard let tempDoc = tempDoc else { return }
-//                    guard let indexer = SearchIndex.File(fileURL: tempDoc.fileURL, properties: SearchIndex.CreateProperties()) else {
-//                        return
-//                    }
-//                    
-//                    let document1 = FileUtils.url("doc-url://document1.txt")
-//                    let _ = indexer.add(document1, text: "struct ContentView: View {")
-//                    
-//                    let document2 = FileUtils.url("doc-url://document2.txt")
-//                    let _ = indexer.add(document2, text: "Good morning, World!")
-//                    
-//                    indexer.flush()
-//                    
-//                    let results = indexer.search("Cont")
-//                    print(results)
-//                    displayedResults = results
+                    Button("Search") {
+                        let results = indexer?.search("cruising")
+                        guard let results = results else {
+                            return
+                        }
+                        for result in results {
+                            print(result.url)
+                        }
+                    }
+                }
+                
+                HStack {
+                    Button("Remove") {
+                        
+                    }
+                    
+                    Button("Memory") {
+                        
+                    }
+                }
+            }.buttonStyle(.accessoryBarAction)
+            
+        }.toolbar {
+            Button("Open") {
+                let openPanel = NSOpenPanel()
+                openPanel.canChooseFiles = false
+                openPanel.canChooseDirectories = true
+                openPanel.allowsMultipleSelection = false
+                
+                if openPanel.runModal() == .OK {
+                    if let selectedFolderURL = openPanel.url {
+                        let fileManager = FileManager.default
+                        
+                        if let enumerator = fileManager.enumerator(at: selectedFolderURL, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles], errorHandler: nil) {
+                            for case let fileURL as URL in enumerator {
+                                do {
+                                    if let file = try? FileViewModel(name: fileURL.lastPathComponent, url: fileURL) {
+                                        files.append(file)
+                                    }
+                                } catch {
+                                    print("File could not be added.")
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-
-//    func loadFileNames() -> [SearchIndex.SearchResult]? {
-//        var selectedURL: URL?
-//        let openPannel = NSOpenPanel()
-//        openPannel.allowsMultipleSelection = false
-//        openPannel.canChooseFiles = false
-//        openPannel.canChooseDirectories = true
-//        openPannel.canCreateDirectories = false
-//        openPannel.prompt = "Index"
-//        // get url
-//        if openPannel.runModal() == .OK {
-//            if let url = openPannel.urls.first {
-//                selectedURL = url
-//            }
-//        }
-//        guard let selectedURL = selectedURL else { return [] }
-//        
-//        let fileManger = FileManager.default
-//        //let contents = try fileManger.contentsOfDirectory(at: folderURL, includingPropertiesForKeys: nil, options: [])
-//        let enumerator = fileManger.enumerator(
-//            at: selectedURL,
-//            includingPropertiesForKeys: [
-//                .isRegularFileKey,
-//            ],
-//            options: [
-//                .skipsHiddenFiles,
-//                .skipsPackageDescendants,
-//            ]
-//        )
-//        guard let filePaths = enumerator?.allObjects as? [URL] else { return [] }
-//        
-//        tempDoc = FileUtils.TempFile()
-//        guard let tempDoc = tempDoc else { return [] }
-//        if let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
-//            let indexURL = cacheDirectory.appendingPathComponent("\(UUID().uuidString).plist")
-//            indexer = SearchIndex.File(fileURL: indexURL, properties: SearchIndex.CreateProperties())
-//        }
-//        
-//        let fileURLs = indexer?.addFolderContent(folderURL: selectedURL, canReplace: false)
-//        
-////        for filePath in filePaths {
-////            // convert url to data and then the data to string
-////            if let data = try? Data(contentsOf: filePath) {
-////                if let content = String(data: data, encoding: .utf8) {
-////                    let resultOfAdding = indexer?.add(filePath, text: content)
-////                    print(resultOfAdding)
-////                } else {
-////                    print("Error while getting string:")
-////                    continue
-////                }
-////            } else {
-////                print("Data error")
-////                continue
-////            }
-////        }
-//        indexer?.flush()
-////        print(i)
-//        let result = indexer?.search("View")
-//        
-//        return result
-//    }
 }
 
 #Preview {

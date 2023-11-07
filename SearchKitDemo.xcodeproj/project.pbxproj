@@ -26,9 +26,10 @@
 		617658992AF161AD000C5197 /* SearchKitDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658982AF161AD000C5197 /* SearchKitDemoTests.swift */; };
 		617658A32AF161AD000C5197 /* SearchKitDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658A22AF161AD000C5197 /* SearchKitDemoUITests.swift */; };
 		617658A52AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658A42AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift */; };
-		617658B42AF16B04000C5197 /* SearchManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658B32AF16B04000C5197 /* SearchManger.swift */; };
+		617658B42AF16B04000C5197 /* FileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617658B32AF16B04000C5197 /* FileViewModel.swift */; };
 		617D04BF2AF9769300CD2CDA /* AsyncIndexSearchingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617D04BE2AF9769300CD2CDA /* AsyncIndexSearchingTests.swift */; };
 		619DD8012AF962A000A9364E /* SearchIndexer+AsyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619DD8002AF962A000A9364E /* SearchIndexer+AsyncManager.swift */; };
+		61CA4C7D2AFAC205005AC971 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CA4C7C2AFAC205005AC971 /* SidebarView.swift */; };
 		61E2E7802AF3EDDC00E3AA4A /* SearchIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E2E77F2AF3EDDC00E3AA4A /* SearchIndexer.swift */; };
 		61E2E7822AF3F7F800E3AA4A /* SearchIndexer+Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E2E7812AF3F7F800E3AA4A /* SearchIndexer+Add.swift */; };
 /* End PBXBuildFile section */
@@ -75,9 +76,10 @@
 		6176589E2AF161AD000C5197 /* SearchKitDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchKitDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		617658A22AF161AD000C5197 /* SearchKitDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKitDemoUITests.swift; sourceTree = "<group>"; };
 		617658A42AF161AD000C5197 /* SearchKitDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKitDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		617658B32AF16B04000C5197 /* SearchManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManger.swift; sourceTree = "<group>"; };
+		617658B32AF16B04000C5197 /* FileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewModel.swift; sourceTree = "<group>"; };
 		617D04BE2AF9769300CD2CDA /* AsyncIndexSearchingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncIndexSearchingTests.swift; sourceTree = "<group>"; };
 		619DD8002AF962A000A9364E /* SearchIndexer+AsyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+AsyncManager.swift"; sourceTree = "<group>"; };
+		61CA4C7C2AFAC205005AC971 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		61E2E77F2AF3EDDC00E3AA4A /* SearchIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIndexer.swift; sourceTree = "<group>"; };
 		61E2E7812AF3F7F800E3AA4A /* SearchIndexer+Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchIndexer+Add.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,7 +135,8 @@
 				617658832AF161AB000C5197 /* SearchKitDemoApp.swift */,
 				617658852AF161AB000C5197 /* SearchKitDemoDocument.swift */,
 				617658872AF161AB000C5197 /* ContentView.swift */,
-				617658B32AF16B04000C5197 /* SearchManger.swift */,
+				61CA4C7C2AFAC205005AC971 /* SidebarView.swift */,
+				617658B32AF16B04000C5197 /* FileViewModel.swift */,
 				61E2E77E2AF3EDC700E3AA4A /* Indexer */,
 				61E2E77D2AF3EDBB00E3AA4A /* OldIndexer */,
 				617658892AF161AC000C5197 /* Assets.xcassets */,
@@ -329,11 +332,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				61E2E7802AF3EDDC00E3AA4A /* SearchIndexer.swift in Sources */,
+				61CA4C7D2AFAC205005AC971 /* SidebarView.swift in Sources */,
 				6129F8852AF6BAAF00A10F67 /* SearchIndexer+File.swift in Sources */,
 				617658862AF161AB000C5197 /* SearchKitDemoDocument.swift in Sources */,
 				6129F8832AF556B000A10F67 /* SearchIndexer+Memory.swift in Sources */,
 				61E2E7822AF3F7F800E3AA4A /* SearchIndexer+Add.swift in Sources */,
-				617658B42AF16B04000C5197 /* SearchManger.swift in Sources */,
+				617658B42AF16B04000C5197 /* FileViewModel.swift in Sources */,
 				6129F8742AF4FD6F00A10F67 /* SearchIndexer+InternalMethods.swift in Sources */,
 				6129F87C2AF5522E00A10F67 /* SearchIndexer+Indexer.swift in Sources */,
 				6129F87A2AF5211B00A10F67 /* SearchIndexer+ProgressivSearch.swift in Sources */,

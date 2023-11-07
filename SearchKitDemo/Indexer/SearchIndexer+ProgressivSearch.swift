@@ -11,10 +11,10 @@ extension SearchIndexer {
     /// Object representaitng the search results
     public class SearchResult {
         /// The identifying url for the document
-        public let url: URL
+        let url: URL
         
         /// The search score for the codument result, Heigher means more relevant
-        public let score: Float
+        let score: Float
         
          init(url: URL, score: Float) {
             self.url = url

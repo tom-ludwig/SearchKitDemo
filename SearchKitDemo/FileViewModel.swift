@@ -6,4 +6,9 @@
 //
 
 import Foundation
-
+
+struct FileViewModel: Identifiable {
+    let id = UUID()
+    let name: String
+    let url: URL
+}
