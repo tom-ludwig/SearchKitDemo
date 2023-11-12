@@ -8,21 +8,20 @@
 import Foundation
 
 extension SearchIndexer {
-    
-    //TODO: Check differences
-    /// Add some text to the index
+    /// Add some text to the index for a given URL
     ///
     /// - Parameters:
     ///   - url: The identifying URL for the text
     ///   - text: The text to add
     ///   - canReplace: if true, can attempt to replace an existing document with the new one.
     /// - Returns: true if the text was successfully added to the index, false otherwise
-    public func add(_ url: URL, text: String, canReplace: Bool = true) -> Bool {
+    public func add(_ url: URL, text: String, canReplace: Bool = false) -> Bool {
         guard let index = self.index,
               let document = SKDocumentCreateWithURL(url as CFURL) else {
             return false
         }
         
+        //TODO: Check if the same is achieved with the following code
 //        return synchronised(self) {
 //            SKIndexAddDocumentWithText(index, document.takeUnretainedValue(), text as CFString, canReplace)
 //        }
@@ -34,14 +33,14 @@ extension SearchIndexer {
         }
     }
     
-    /// Add some text to the index
+    /// Add some text to the index via a URL string
     ///
     /// - Parameters:
-    ///   - textURL: The identifying URL for the text (must be a valid URL)
+    ///   - textURL: The identifying URL for the text (must be a valid URL) as a String
     ///   - text: The text to add
     ///   - canReplace: if true, can attempt to replace an existing document with the new one.
     /// - Returns: true if the text was successfully added to the index, false otherwise
-    public func add(textURL: String, text: String, canReplace: Bool = true) -> Bool {
+    public func add(textURL: String, text: String, canReplace: Bool = false) -> Bool {
         guard let url = URL(string: textURL) else {
             return false
         }
@@ -56,7 +55,7 @@ extension SearchIndexer {
     ///   - canReplace: if true, can attempt to replace an existing document with the new one.
     /// - Returns: true if the command was successful.
     ///                 **NOTE** If the document _wasnt_ updated it also returns true!
-    public func add(fileURL: URL, mimeType: String? = nil, canReplace: Bool = true) -> Bool {
+    public func add(fileURL: URL, mimeType: String? = nil, canReplace: Bool = false) -> Bool {
         guard self.dataExtractorLoaded,
               let index = self.index,
               let document = SKDocumentCreateWithURL(fileURL as CFURL) else {
@@ -76,7 +75,7 @@ extension SearchIndexer {
     ///   - folderURL: The folder to be indexed.
     ///   - canReplace: If the document already exists within the index, can it be replaced?
     /// - Returns: The URLs of documents added to the index.  If folderURL isn't a folder, returns empty
-    public func addFolderContent(folderURL: URL, canReplace: Bool = true) -> [URL] {
+    public func addFolderContent(folderURL: URL, canReplace: Bool = false) -> [URL] {
         let fileManger = FileManager.default
         
         var isDir: ObjCBool = false

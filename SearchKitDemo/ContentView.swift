@@ -9,12 +9,12 @@ import SwiftUI
 import AppKit
 
 struct ContentView: View {
-    @State var tempDoc: FileUtils.TempFile?
     @State var files = [FileViewModel]()
     @State var indexer = SearchIndexer.Memory.Create()
     @State private var elapsedTime: TimeInterval?
     @State private var searchTime: TimeInterval?
     @State private var searchQuery: String = ""
+    @State private var asyncIndexing: Bool = false
     var body: some View {
         NavigationView {
             SidebarView(files: $files)
@@ -24,26 +24,15 @@ struct ContentView: View {
                     .textFieldStyle(.roundedBorder)
                     .padding()
                     .frame(maxWidth: 200)
+                
                 HStack {
                     VStack {
                         Button("Index") {
-                            let startTime = Date()
-                            guard let indexer = indexer else {
-                                return
+                            if asyncIndexing {
+                                asyncIndex()
+                            } else {
+                                index()
                             }
-                            
-                            files.forEach { file in
-//                                let result = indexer.add(fileURL: file.url, canReplace: false)
-                                let result = indexer.add(file.url, text: file.content!, canReplace: false)
-                                print(result)
-                            }
-                            
-                            indexer.flush()
-                            
-                            print(indexer.documents())
-                            
-                            let endTime = Date()
-                            elapsedTime = endTime.timeIntervalSince(startTime)
                         }
                         
                         
@@ -73,13 +62,9 @@ struct ContentView: View {
                 }
                 
                 HStack {
-                    Button("Remove") {
-                        
-                    }
+                    Toggle("Async", isOn: $asyncIndexing)
                     
-                    Button("Memory") {
-                        
-                    }
+                    Button("Memory") { }
                 }
             }.buttonStyle(.accessoryBarAction)
             
@@ -88,6 +73,49 @@ struct ContentView: View {
                 addFilesWithContentText()
             }
         }
+    }
+    private func asyncIndex() {
+        let startTime = Date()
+        guard let indexer = indexer else {
+            return
+        }
+        
+        let asyncController = SearchIndexer.AsyncManager(index: indexer)
+        
+        Task{
+            var textFiles = [SearchIndexer.AsyncManager.TextFile]()
+            for file in files {
+                textFiles.append(SearchIndexer.AsyncManager.TextFile(url: file.url, text: file.content ?? ""))
+            }
+            
+            let _ = await asyncController.addText(files: textFiles, flushWhenComplete: false)
+            
+            indexer.flush()
+            
+            print("Added: \(indexer.documents().count) documents to the index.")
+            
+            let endTime = Date()
+            elapsedTime = endTime.timeIntervalSince(startTime)
+            print("Elapsed time: \(elapsedTime ?? 0.0)")
+        }
+    }
+    
+    private func index() {
+        let startTime = Date()
+        guard let indexer = indexer else {
+            return
+        }
+        
+        files.forEach { file in
+            _ = indexer.add(file.url, text: file.content!, canReplace: false)
+        }
+        
+        indexer.flush()
+        
+        print(indexer.documents())
+        
+        let endTime = Date()
+        elapsedTime = endTime.timeIntervalSince(startTime)
     }
     
     func addFilesWithURL() {
@@ -102,11 +130,7 @@ struct ContentView: View {
                 
                 if let enumerator = fileManager.enumerator(at: selectedFolderURL, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles], errorHandler: nil) {
                     for case let fileURL as URL in enumerator {
-                        if let file = try? FileViewModel(name: fileURL.lastPathComponent, url: fileURL) {
-                            files.append(file)
-                        } else {
-                            print("Error happend on: \(fileURL)")
-                        }
+                        files.append(FileViewModel(name: fileURL.lastPathComponent, url: fileURL))
                     }
                 }
             }
@@ -129,27 +153,20 @@ struct ContentView: View {
                         fileManager.fileExists(atPath: fileURL.path, isDirectory: &isDirec)
                         
                         guard isDirec.boolValue == false else {
-                            print("is a dir")
                             continue
                         }
-//                        let fileContentData = try? Data(contentsOf: fileURL)
-//                        let fileContentString = String(data: fileContentData!, encoding: .utf8)! // TODO: Remove force unwrapping
-                        do {
-                            guard let fileContent = try? String(contentsOf: fileURL) else {
-                                continue
-                            }
-                            if let file = try? FileViewModel(name: fileURL.lastPathComponent, url: fileURL, content: fileContent) {
-                                files.append(file)
-                            } else {
-                                print("an error occured")
-                            }
-                        } catch {
-                            print("fatal error")
+                        guard let fileContent = try? String(contentsOf: fileURL) else {
+                            continue
                         }
+                        
+                        files.append(FileViewModel(name: fileURL.lastPathComponent, url: fileURL, content: fileContent))
                     }
                 }
             }
         }
+        
+        print("Added Files")
+        
     }
 }
 

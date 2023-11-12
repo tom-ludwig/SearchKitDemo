@@ -7,13 +7,6 @@
 
 import Foundation
 
-/// Provide the equivalent of @synchronised on objc
-public func synchronised<T>(_ lock: AnyObject, _ body: () throws -> T) rethrows -> T {
-    objc_sync_enter(lock)
-    defer { objc_sync_exit(lock) }
-    return try body()
-}
-
 /// Ensures that critical sections of code only run on one thread at a time
 public class Synchronised {
     private static let queue = DispatchQueue(label: "com.activcoding.SearchKitDemo")
@@ -82,7 +75,6 @@ public class SearchIndexer {
         }
     }
     
-    //private, can't make it private due to seperation of concerns, i.e. moving funcitons into differnet files.
     var index: SKIndex?
     
     /// Call  once at application launch to tell Search Kit to use the Spotlight metadata importers.

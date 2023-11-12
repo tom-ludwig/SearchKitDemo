@@ -16,6 +16,8 @@ extension SearchIndexer {
     }
     
     /// Reduce the size of index where possible, do NOT call on the main thread
+    ///
+    /// - Warning: Do NOT call on the main thread
     public func compact() {
         if let index = self.index {
             SKIndexCompact(index)

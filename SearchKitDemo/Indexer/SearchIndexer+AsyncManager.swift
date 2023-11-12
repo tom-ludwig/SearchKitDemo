@@ -21,7 +21,7 @@ extension SearchIndexer {
         }
         
         
-        class TextTask {
+        class TextFile {
             let url: URL
             let text: String
             
@@ -57,27 +57,28 @@ extension SearchIndexer {
         // MARK: - Add
         
         func addText(
-            async textTask: [TextTask],
-            flushWhenComplete: Bool = false,
-            complete: @escaping ([TextTask]) -> Void
-        ) {
-            let dispatchGroup = DispatchGroup()
+            files: [TextFile],
+            flushWhenComplete: Bool = false
+//            complete: @escaping ([Bool]) -> Void
+        ) async -> [Bool] {
+
+            var addedFiles = [Bool]()
             
-            for task in textTask {
-                dispatchGroup.enter()
-                addQueue.async { [weak self] in
-                    guard let self = self else { return }
-                    let _ = self.index.add(task.url, text: task.text)
-                    dispatchGroup.leave()
+            await withTaskGroup(of: Bool.self) { taskGroup in
+                for file in files {
+                    taskGroup.addTask {
+                        return self.index.add(file.url, text: file.text, canReplace: false)
+                    }
+                }
+                
+                for await result in taskGroup {
+                    addedFiles.append(result)
                 }
             }
-            
-            dispatchGroup.notify(queue: .main) {
-                if flushWhenComplete {
-                    self.index.flush()
-                }
-                complete(textTask)
+            if flushWhenComplete {
+                index.flush()
             }
+            return addedFiles
         }
         
         func addFiles(

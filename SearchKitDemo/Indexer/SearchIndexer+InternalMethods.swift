@@ -50,7 +50,7 @@ extension SearchIndexer {
         return self.termCount(for: document) == 0
     }
     
-    /// Recurse through the children of a document and return an array containing all the documentids
+    /// Recurse through the children of a document and return an array containing all the document-ids
     private func addLeafURLs(index: SKIndex, inParentDocument: SKDocument?, docs: inout [DocumentID]) {
         guard let index = self.index else {
             return
