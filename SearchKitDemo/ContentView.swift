@@ -10,6 +10,7 @@ import AppKit
 
 struct ContentView: View {
     @State var files = [FileViewModel]()
+    @State var searchResults: [SearchResultsViewModel]? = nil
     @State var indexer = SearchIndexer.Memory.Create()
     @State private var elapsedTime: TimeInterval?
     @State private var searchTime: TimeInterval?
@@ -17,62 +18,98 @@ struct ContentView: View {
     @State private var asyncIndexing: Bool = false
     var body: some View {
         NavigationView {
-            SidebarView(files: $files)
+            SidebarView(files: $files, removeAction: delete)
             
-            VStack {
-                TextField("Query", text: $searchQuery)
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-                    .frame(maxWidth: 200)
-                
-                HStack {
-                    VStack {
-                        Button("Index") {
-                            if asyncIndexing {
-                                asyncIndex()
-                            } else {
-                                index()
-                            }
-                        }
-                        
-                        
-                        if let elapsedTime = elapsedTime {
-                            Text("\(elapsedTime)")
-                        }
-                    }
+            if let searchResults {
+                VStack {
+                    Text("Files Found: \(searchResults.count) within \(searchTime?.description ?? "0") seconds")
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(.thinMaterial)
+                        )
                     
-                    VStack {
-                        Button("Search") {
-                            let startTime = Date()
-                            let results = indexer?.search(searchQuery)
-                            guard let results = results else {
-                                print("No results found")
-                                return
-                            }
-                            for result in results {
-                                print(result.url)
-                            }
-                            let endTime = Date()
-                            searchTime = endTime.timeIntervalSince(startTime)
+                    Table(searchResults) {
+                        TableColumn("Name") {
+                           Text($0.fileName)
                         }
-                        if let searchTime = searchTime {
-                            Text("\(searchTime)")
+                        
+                        TableColumn("Score") {
+                            Text("\($0.score, specifier: "%.2f")")
                         }
                     }
                 }
-                
-                HStack {
-                    Toggle("Async", isOn: $asyncIndexing)
-                    
-                    Button("Memory") { }
-                }
-            }.buttonStyle(.accessoryBarAction)
-            
+            } else {
+                Text("Results will appear here")
+            }
         }.toolbar {
-            Button("Open") {
+            Toggle(isOn: $asyncIndexing) {
+                Image(systemName: "arrow.triangle.pull")
+            }
+            
+            Button {
                 addFilesWithContentText()
+            } label: {
+                Image(systemName: "folder.badge.plus")
+            }
+            
+            Button {
+                if asyncIndexing {
+                    asyncIndex()
+                } else {
+                    index()
+                }
+            } label: {
+                Image(systemName: "square.grid.3x3.square")
+            }
+            
+            TextField("Query...", text: $searchQuery)
+                .frame(minWidth: 100)
+                .onSubmit {
+                    search()
+                }
+            
+            Button {
+                search()
+            } label: {
+                Image(systemName: "magnifyingglass")
             }
         }
+    }
+    
+    func delete(url: URL) -> Bool {
+        guard let indexer = indexer else {
+            return false
+        }
+        let success = indexer.remove(url: url)
+        
+        if success {
+            files.removeAll {
+                $0.url == url
+            }
+        }
+        
+        return success
+    }
+    
+    private func search() {
+        searchResults = [SearchResultsViewModel]()
+        let startTime = Date()
+        let results = indexer?.search(searchQuery)
+        guard let results = results else {
+            print("No results found")
+            return
+        }
+        for result in results {
+            let newResult = SearchResultsViewModel(fileName: result.url.lastPathComponent, url: result.url, score: result.score)
+            searchResults?.append(newResult)
+        }
+        searchResults = searchResults?.sorted {
+            $0.score > $1.score
+        }
+        let endTime = Date()
+        searchTime = endTime.timeIntervalSince(startTime)
+        print(searchTime as Any)
     }
     private func asyncIndex() {
         let startTime = Date()

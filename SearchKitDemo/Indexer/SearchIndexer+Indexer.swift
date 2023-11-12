@@ -15,7 +15,7 @@ extension SearchIndexer {
         }
     }
     
-    /// Reduce the size of index where possible, do NOT call on the main thread
+    /// Reduce the size of index where possible
     ///
     /// - Warning: Do NOT call on the main thread
     public func compact() {

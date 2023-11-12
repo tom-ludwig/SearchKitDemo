@@ -25,6 +25,7 @@ extension SearchIndexer {
     }
     
     /// Remove the given document from the index
+    /// When the app deletes a document, use this function to update the index to reflect the change, i. e. the index does not need to get flushed.
      func remove(document: SKDocument) -> Bool {
         if let index = self.index {
             return queue.sync {
