@@ -8,50 +8,54 @@
 import SwiftUI
 
 struct SidebarView: View {
+    @State private var selectedView: SideBarSelectedView = .files
     @Binding var files: [FileViewModel]
+    @Binding var searchResults: [SearchResultsViewModel]
     var removeAction: (URL) -> (Bool)
-    var body: some View {
-        if !files.isEmpty {
-            List(files) { file in
-                FileTabItemView(file: file, removeAction: removeAction)
-            }
-        } else {
-            Text("Please add a file or folder")
-        }
+    
+    
+    enum SideBarSelectedView {
+        case files
+        case searchResults
     }
-}
-
-#Preview {
-    SidebarView(files: .constant([FileViewModel]()), removeAction: { _ in return true })
-}
-
-
-struct FileTabItemView: View {
-    @State var file: FileViewModel
-    @State private var isHovered = false
-    var removeAction: (URL) -> (Bool)
     var body: some View {
-        HStack {
-            Image(systemName: "doc")
-            
-            Text(file.name)
-            
-            Spacer()
-            
-            if isHovered {
+        VStack {
+            HStack {
                 Button {
-                    let result = removeAction(file.url)
+                    withAnimation {
+                        selectedView = .files
+                    }
                 } label: {
-                    Image(systemName: "trash")
+                    Image(systemName: "doc")
+                        .foregroundStyle(selectedView == .files ? .blue : .gray)
                 }
-                .buttonStyle(.plain)
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .onHover { hovering in
-            withAnimation {
-                self.isHovered = hovering
+                
+                Button {
+                    withAnimation {
+                        selectedView = .searchResults
+                    }
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                } .foregroundStyle(selectedView == .searchResults ? .blue : .gray)
+            }.buttonStyle(.accessoryBar)
+            
+            if selectedView == .files {
+                if !files.isEmpty {
+                    List(files) { file in
+                        FileTabItemView(file: file, removeAction: removeAction)
+                    }
+                } else {
+                    Text("Please add a file or folder")
+                }
+            } else {
+                List(searchResults) { results in
+                    SearchResultsFileTabItem(file: results)
+                }
             }
         }
     }
 }
+
+//#Preview {
+//    SidebarView(files: .constant([FileViewModel]()), searchResults: .constant([SearchResultsViewModel]), removeAction: { _ in return true })
+//}
