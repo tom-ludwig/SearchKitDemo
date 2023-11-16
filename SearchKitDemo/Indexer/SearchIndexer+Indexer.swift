@@ -25,14 +25,12 @@ extension SearchIndexer {
     }
     
     /// Remove any documents that have no search terms
-    public func cleanUp(progress: ((Int, Int) -> Void)?) -> Int {
+    public func cleanUp() -> Int {
         let allDocs = self.fullDocuments(termState: .Empty)
-        let totalCount = allDocs.count
         var removedCount = 0
         for docID in allDocs {
             _ = self.remove(document: docID.1)
             removedCount += 1
-            progress?(totalCount, totalCount)
         }
         return removedCount
     }

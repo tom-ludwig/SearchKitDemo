@@ -8,13 +8,16 @@
 import Foundation
 
 extension SearchIndexer {
-    /// Perform a search
+    /// Initiates a search operation based on the provided query.
     ///
     /// - Parameters:
-    ///   - query: A string containing the term(s) to be searched for
-    ///   - limit: The maximum number of results to return
-    ///   - timeout: How long to wait for a search to complete before stopping
-    /// - Returns: An array containing match URLs and their corresponding 'score' (how relevant the match)
+    ///   - query: A string representing the term to be searched for.
+    ///   - limit: The maximum number of search results to be returned.
+    ///   - timeout: The duration to wait for the search to complete before stopping.
+    ///
+    /// - Returns: An array of search results, each containing a match URL and its corresponding score, indicating the relevance of the match to the query.
+    ///
+    /// The function performs a search using the specified query, limiting the number of results based on the provided `limit`. The `timeout` parameter determines how long the search operation will wait before stopping.
     public func search(
         _ query: String,
         limit: Int = 10,
@@ -31,7 +34,6 @@ extension SearchIndexer {
             moreResultsAvailable = result.moreResultsAvailable
         } while moreResultsAvailable
         
-        // TODO: Change this to something like async stream to get the results asynchronously
         return results
     }
 }

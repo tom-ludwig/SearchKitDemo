@@ -83,7 +83,7 @@ public class SearchIndexer {
         return true
     }()
     
-    /// Stop words for the index
+    /// Stop words for the index, these are common words which should be ignored because they are not useful for searching
     private(set) lazy var stopWords: Set<String> = {
         var stopWords: Set<String> = []
         if let index = self.index,

@@ -19,8 +19,9 @@ extension SearchIndexer {
         }
         
         /// Create a new file based index
-        /// - Parameter fileURL: The file URL to create the index at
-        /// - Parameter properties: The properties defining the capabilities of the index
+        /// - Parameters:
+        ///    - fileURL:The file URL to create the index at
+        ///    - properties: The properties defining the capabilities of the index
         public convenience init?(fileURL: URL, properties: CreateProperties) {
             if !FileManager.default.fileExists(atPath: fileURL.absoluteString),
                let skIndex = SKIndexCreateWithURL(fileURL as CFURL, nil, properties.indexType, properties.properties()) {
@@ -31,10 +32,9 @@ extension SearchIndexer {
         }
         
         /// Load an index from a file url
-        /// - Parameter fileURL: The file URL to load the index from
-        /// - Parameter writable: Can we modify the index?
+        /// - Parameter fileURL: The file URL where the index is located at
+        /// - Parameter writable: Can the index be modified
         public convenience init?(fileURL: URL, writeable: Bool) {
-            // TODO: Maybe add file existence check?
             if let skIndex = SKIndexOpenWithURL(fileURL as CFURL, nil, writeable) {
                 self.init(url: fileURL, index: skIndex.takeUnretainedValue())
             } else {
@@ -57,10 +57,11 @@ extension SearchIndexer {
         
         
         /// Create an indexer using a new data container for the store
-        ///
-        /// - Parameter fileURL: the file URL to store the index at.  url must be a non-existent file
-        /// - Parameter properties: the properties for index creation
-        /// - Returns: A new index object if successful, nil otherwise. Returns nil if the file already exists at url
+        ////
+        /// - Parameters:
+        ///    - fileURL: the file URL to store the index at.  url must be a non-existent file
+        ///    - properties: the properties for index creation
+        /// - Returns: A new index object if successful, nil otherwise. Returns nil if the file already exists at url.
         public static func Create(fileURL: URL, properties: CreateProperties = CreateProperties()) -> SearchIndexer.File? {
             if !FileManager.default.fileExists(atPath: fileURL.absoluteString),
                let skIndex = SKIndexCreateWithURL(fileURL as CFURL,
@@ -74,7 +75,7 @@ extension SearchIndexer {
             }
         }
         
-        /// Flush, compact and write the content of the index to the file
+        /// Flush, compact, i.e. apply all changes and write the content of the index to the file
         public func save() {
             flush()
             compact()

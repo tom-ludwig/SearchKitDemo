@@ -66,8 +66,17 @@ extension SearchIndexer {
             SKSearchCancel(self.search)
         }
         
-        
-        /// Get the next chunk of result
+        /// Retrieves the next chunk of search results in a progressive search.
+        ///
+        /// - Parameters:
+        ///   - limit: The maximum number of results to retrieve in each call. Defaults to 10.
+        ///   - timeout: The duration to wait for the search to complete before stopping. Defaults to 1.0 seconds.
+        ///
+        /// - Returns: A tuple containing search results and information about the progress of the search.
+        ///
+        /// The function performs a progressive search, fetching the next set of results based on the specified limit and timeout. It uses the Search Kit framework to find matches, retrieve document URLs, and their corresponding scores.
+        ///
+        /// Example:
         public func next(_ limit: Int = 10, timeout: TimeInterval = 1.0) -> (ProgressivSearch.Results) {
             guard self.index.index != nil else {
                 return Results(moreResultsAvailable: false, results: [])

@@ -33,13 +33,14 @@ extension SearchIndexer {
         }
     }
     
-    /// Add some text to the index via a URL string
+    /// Adds text content to the indexer using a URL string.
     ///
     /// - Parameters:
-    ///   - textURL: The identifying URL for the text (must be a valid URL) as a String
-    ///   - text: The text to add
-    ///   - canReplace: if true, can attempt to replace an existing document with the new one.
-    /// - Returns: true if the text was successfully added to the index, false otherwise
+    ///   - textURL: A string representing the URL of the text content.
+    ///   - text: The text content to be added to the indexer.
+    ///   - canReplace: If true, can attempt to replace an existing document with the new one. Defaults to `false`.
+    ///
+    /// - Returns: `true` if the text content is successfully added to the indexer; otherwise, returns `false`.
     public func add(textURL: String, text: String, canReplace: Bool = false) -> Bool {
         guard let url = URL(string: textURL) else {
             return false
@@ -47,14 +48,17 @@ extension SearchIndexer {
         return self.add(url, text: text, canReplace: canReplace)
     }
     
-    /// Add a file as a document to the index
+    /// Adds a file as a document to the index.
     ///
     /// - Parameters:
-    ///   - fileURL: The file URL for the document (of the form file:///Users/blahblah.txt)
-    ///   - mimeType: An optional mimetype.  If nil, attempts to work out the type of file from the extension.
-    ///   - canReplace: if true, can attempt to replace an existing document with the new one.
-    /// - Returns: true if the command was successful.
-    ///                 **NOTE** If the document _wasnt_ updated it also returns true!
+    ///   - fileURL: The file URL for the document, e.g., file:///User/Essay.txt.
+    ///   - mimeType: An optional MIME type. If nil, the function attempts to determine the file type from the extension.
+    ///   - canReplace: A flag indicating whether to attempt to replace an existing document with the new one. Defaults to `false`.
+    ///
+    /// - Returns: `true` if the command was successful. **Note:** Even if the document wasn't updated, it still returns `true`.
+    ///
+    /// - Important:
+    ///   If the document wasn't updated, the function still returns `true`. Be cautious when relying solely on the return value to determine if the document was replaced.
     public func add(fileURL: URL, mimeType: String? = nil, canReplace: Bool = false) -> Bool {
         guard self.dataExtractorLoaded,
               let index = self.index,
@@ -69,12 +73,13 @@ extension SearchIndexer {
         }
     }
     
-    /// Recursively add the files contained within a folder to the search index
+    /// Recursively adds the files contained within a folder to the search index.
     ///
     /// - Parameters:
     ///   - folderURL: The folder to be indexed.
-    ///   - canReplace: If the document already exists within the index, can it be replaced?
-    /// - Returns: The URLs of documents added to the index.  If folderURL isn't a folder, returns empty
+    ///   - canReplace: A flag indicating whether existing documents within the index can be replaced. Defaults to `false`.
+    ///
+    /// - Returns: The URLs of documents added to the index. If `folderURL` isn't a folder, returns an empty array.
     public func addFolderContent(folderURL: URL, canReplace: Bool = false) -> [URL] {
         let fileManger = FileManager.default
         
@@ -97,11 +102,11 @@ extension SearchIndexer {
         return addedUrls
     }
     
-    /// Remove a document from the index
+    /// Removes a document from the index.
     ///
-    /// - Parameter url: The identifying URL for the document
-    /// - Returns: true if the document was successfully removed, false otherwise.
-    ///            **NOTE** if the document didn't exist, this returns true as well
+    /// - Parameter url: The identifying URL for the document.
+    ///
+    /// - Returns: `true` if the document was successfully removed, `false` otherwise. **Note:** If the document didn't exist, this also returns `true`.
     public func remove(url: URL) -> Bool {
         let document = SKDocumentCreateWithURL(url as CFURL).takeUnretainedValue()
         return self.remove(document: document)
@@ -109,14 +114,18 @@ extension SearchIndexer {
     
     /// Remove an array of documents from the index
     ///
-    /// - Parameter urls: An array of URLs identifying the documents to remove
+    /// - Parameter urls: An array of URLs identifying the documents to be removed.
     public func remove(urls: [URL]) {
         urls.forEach { url in
             _ = self.remove(url: url)
         }
     }
     
-    /// Returns the indexing state for the specified URL.
+    /// Retrieves the indexing state of a document at the specified URL.
+    ///
+    /// - Parameter url: The URL of the document.
+    ///
+    /// - Returns: The indexing state of the document. Returns `kSKDocumentStateNotIndexed` if the document is not indexed.
     public func documentState(_ url: URL) -> SKDocumentIndexState {
         if let index = self.index,
            let document = SKDocumentCreateWithURL(url as CFURL) {
@@ -125,7 +134,11 @@ extension SearchIndexer {
         return kSKDocumentStateNotIndexed
     }
     
-    /// Returns true if the document that corresponds to the specified URL is in the index.
+    /// Checks if a document at the specified URL is indexed.
+    ///
+    /// - Parameter url: The URL of the document.
+    ///
+    /// - Returns: `true` if the document is indexed; otherwise, returns `false`.
     public func documentIndexed(_ url: URL) -> Bool {
         return self.documentState(url) == kSKDocumentStateIndexed
     }

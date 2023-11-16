@@ -37,6 +37,7 @@ extension SearchIndexer {
         }
         
         // MARK: - Search
+        
         func next(
             query: String,
             _ maxResults: Int,
