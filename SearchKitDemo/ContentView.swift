@@ -40,7 +40,7 @@ struct ContentView: View {
             }
         }.toolbar {
             Toggle(isOn: $asyncIndexing) {
-                Image(systemName: "arrow.triangle.pull")
+                Text(asyncIndexing ? "Asynchronous" : "Synchronous")
             }
             
             Button {
@@ -56,13 +56,16 @@ struct ContentView: View {
                     searchManager.index()
                 }
             } label: {
-                Image(systemName: "square.grid.3x3.square")
+                Text("Index")
             }
             
             TextField("Query...", text: $searchQuery)
                 .frame(minWidth: 100)
                 .onSubmit {
                     searchManager.search(searchQuery: searchQuery)
+                }
+                .onChange(of: searchQuery) { oldValue, newValue in
+                    searchManager.search(searchQuery: newValue)
                 }
             
             Button {
