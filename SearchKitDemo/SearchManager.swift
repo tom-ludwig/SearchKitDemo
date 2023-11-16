@@ -73,6 +73,9 @@ class SearchManager: ObservableObject {
         }
     }
     
+    /// Indexes the content of the given files using the specified indexer.
+    ///
+    /// The function iterates through each file in the `files` array, adds its content to the indexer, and then flushes the indexer to ensure the data is processed.
     func index() {
         let startTime = Date()
         guard let indexer = indexer else {
@@ -89,6 +92,13 @@ class SearchManager: ObservableObject {
         print(Date().timeIntervalSince(startTime))
     }
     
+    /// Deletes a file from the index and removes it from the files array.
+    ///
+    /// - Parameters:
+    ///   - url: The URL of the file to be deleted.
+    ///
+    /// - Returns:
+    ///   `true` if the file was successfully deleted from the indexer and removed from the files array; otherwise, returns `false`.
     func delete(url: URL) -> Bool {
         guard let indexer = indexer else {
             return false
@@ -104,6 +114,10 @@ class SearchManager: ObservableObject {
         return success
     }
     
+    /// Searches for a given query within the indexed documents and updates the search results.
+    ///
+    /// - Parameters:
+    ///   - searchQuery: The search query string.
     public func search(searchQuery: String) {
         guard let indexer = indexer else {
             return
@@ -125,10 +139,13 @@ class SearchManager: ObservableObject {
         searchResults = newSearchResults
         print(Date().timeIntervalSince(startTime))
     }
-    
-    
+
+    /// Addes line matchings to a `SearchResultsViewModel` array. That means if a search result is a file, and the search term appears in the file, the function will add the line number, line content, and keyword range to the `SearchResultsViewModel`.
+    ///
+    /// - Parameters:
+    ///   - query: The search query string.
+    ///   - searchResults: An inout parameter containing the array of `SearchResultsViewModel` to be evaluated. It will be modified to include line matches.
     private func evaluateResults(query: String, searchResults: inout [SearchResultsViewModel]) {
-        
         searchResults = searchResults.map { result in
             var newResult = result
             var newMatches = [SearchResultLineMatchesModel]()
@@ -147,7 +164,6 @@ class SearchManager: ObservableObject {
                     for match in matches {
                         newMatches.append(SearchResultLineMatchesModel(file: result.url, lineNumber: match[0] as! Int, lineContent: match[1] as! String, keywordRange: match[2] as! Range<String.Index>))
                     }
-                    //                    result.lineMatches.append(contentsOf: newMatches)
                 }
             }
             newMatches.forEach { match in

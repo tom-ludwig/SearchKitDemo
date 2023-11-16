@@ -142,7 +142,6 @@
 			children = (
 				617658832AF161AB000C5197 /* SearchKitDemoApp.swift */,
 				617658872AF161AB000C5197 /* ContentView.swift */,
-				61CF23122B062247003B3C48 /* String+AppearancesOfSubstring.swift */,
 				61CF23102B061FBF003B3C48 /* SearchManager.swift */,
 				61CA4C7C2AFAC205005AC971 /* SidebarView.swift */,
 				61FE68302B03FEFF0059E0FD /* FileTabItemView.swift */,
@@ -150,6 +149,7 @@
 				617658B32AF16B04000C5197 /* FileViewModel.swift */,
 				61A4A33F2B013DC6004802D7 /* SearchResultsViewModel.swift */,
 				61FE682E2B03FD7D0059E0FD /* String+SafeOffset.swift */,
+				61CF23122B062247003B3C48 /* String+AppearancesOfSubstring.swift */,
 				61E2E77E2AF3EDC700E3AA4A /* Indexer */,
 				617658892AF161AC000C5197 /* Assets.xcassets */,
 				6176588E2AF161AD000C5197 /* Info.plist */,
