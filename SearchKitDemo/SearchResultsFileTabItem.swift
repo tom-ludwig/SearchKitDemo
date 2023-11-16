@@ -13,23 +13,20 @@ struct SearchResultsFileTabItem: View {
     @State private var isHovered = false
     var body: some View {
         VStack {
-            DisclosureGroup {
-                List {
-                    ForEach(file.lineMatches, id: \.id) { line in
-                        AttributedTextView(attributedString: line.attributedLabel())
-                            .padding()
-                    }
+            HStack {
+                Image(systemName: "doc")
+                
+                Text(file.url.lastPathComponent)
+                
+                Spacer()
+            }.frame(maxWidth: .infinity)
+            List {
+                ForEach(file.lineMatches, id: \.id) { line in
+                    AttributedTextView(attributedString: line.attributedLabel())
+                        .frame(minHeight: 100)
                 }
-            } label: {
-                HStack {
-                    Image(systemName: "doc")
-                    
-                    Text(file.url.lastPathComponent)
-                    
-                    Spacer()
-                }.frame(maxWidth: .infinity)
-            }
-        }.frame(height: 100)
+            }.frame(minHeight: 100)
+        }
     }
 }
 
